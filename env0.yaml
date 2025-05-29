@@ -1,0 +1,31 @@
+# env0.yaml
+# This defines a custom workflow in env0 for a Terraform or Terragrunt-based deployment.
+# Docs: https://docs.env0.com/docs/env0-yaml
+
+version: 1
+
+# Custom flow steps, override or insert between init/plan/apply/destroy
+steps:
+  before_plan:
+    - name: "Run custom validation script"
+      run: ./scripts/validate-inputs.sh
+  after_apply:
+    - name: "Output deployment summary"
+      run: ./scripts/show-summary.sh
+
+# Environment variables to inject (use with caution for secrets)
+variables:
+  ENVIRONMENT: "dev"
+  OWNER: "demo-user"
+
+# Remote backend override (optional)
+terraform:
+  backend:
+    s3:
+      bucket: "env0-tfstate-demo"
+      key: "state/${ENVIRONMENT}/terraform.tfstate"
+      region: "us-east-1"
+
+# Custom approvers (optional for enterprise)
+approvers:
+  - email: admin@example.com
