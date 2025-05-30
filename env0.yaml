@@ -5,14 +5,7 @@
 version: 1
 
 # Custom flow steps, override or insert between init/plan/apply/destroy
-steps:
-  before_plan:
-    - name: "Run custom validation script"
-      run: ./scripts/validate-inputs.sh
-  after_apply:
-    - name: "Output deployment summary"
-      run: ./scripts/show-summary.sh
-
+steps: {}
 # Environment variables to inject (use with caution for secrets)
 variables:
   ENVIRONMENT: "dev"
